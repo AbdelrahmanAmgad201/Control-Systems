@@ -8,5 +8,9 @@ app = Flask(__name__)
 def process_graph():
     pass
 
+@app.route("/solve_characteristic_equation", methods=["POST"])
+def solve_characteristic_equation():
+    pass
+
 if __name__ == "__main__":
     app.run(debug=True)
