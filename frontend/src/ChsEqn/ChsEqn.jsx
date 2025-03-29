@@ -47,6 +47,7 @@ function ChsEqn() {
               <input
                 className="coeff"
                 type="text"
+                defaultValue={0}
                 placeholder="Coefficient"
                 onChange={(e) => handleCoefficientChange(index, e.target.value)}
               />
