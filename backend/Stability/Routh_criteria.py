@@ -63,6 +63,7 @@ def routh_criteria(coeffs, n):
             d = routh_array[i-1, j+1] if j+1 < cols else 0
             
             if abs(c) >= 1e-10:
+                
                 routh_array[i, j] = -(a*d - b*c)/c
     
   
