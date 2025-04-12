@@ -1,53 +1,65 @@
+from typing import List, Dict, Set
+from .Loop import Loop  # Assuming Loop is in Loop.py or similar
+import copy
+
 class Graph:
-    graph: dict[str, dict[str, float]]
+    graph: Dict[str, Dict[str, float]]
 
     def __init__(self, inputDTO):
         self.graph = self.construct(inputDTO)
 
     def construct(self, inputDTO):
-        """
-        Constructs graph from input data
-        Expected format: list of edges [{"from": node1, "to": node2, "gain": value}, ...]
-        """
         graph = {}
-        
         for edge in inputDTO:
-            from_node = edge["from"]
-            to_node = edge["to"]
-            gain = float(edge["gain"])
-            
-            if from_node not in graph:
-                graph[from_node] = {}
-            
-            graph[from_node][to_node] = gain
-            
-            # Make sure to_node exists in graph even if it has no outgoing edges
-            if to_node not in graph:
-                graph[to_node] = {}
-                
+            frm = edge["from"]
+            to = edge["to"]
+            gain = edge["gain"]
+
+            if frm not in graph:
+                graph[frm] = {}
+            graph[frm][to] = gain
+            if to not in graph:
+                graph[to] = {}
         return graph
 
-    def get_start_node(self):
-        all_nodes = set(self.graph.keys())
-        nodes_with_incoming_edges = set()
-        
-        # Find all nodes that have incoming edges
-        for source, targets in self.graph.items():
-            for target in targets.keys():
-                nodes_with_incoming_edges.add(target)
-        
-        # Find nodes without incoming edges
-        start_nodes = all_nodes - nodes_with_incoming_edges
-        
-        if len(start_nodes) != 1:
-            raise ValueError(f"Expected exactly one start node, but found: {len(start_nodes)} {start_nodes}")
-        
-        return next(iter(start_nodes))
+    def get_start_nodes(self):
+        all_from_nodes = set(self.graph.keys())
+        all_to_nodes = {to for neighbors in self.graph.values() for to in neighbors}
+        return list(all_from_nodes - all_to_nodes)
 
-    def get_end_node(self):
-        end_nodes = [node for node, neighbors in self.graph.items() if not neighbors]
-        
-        if len(end_nodes) != 1:
-            raise ValueError(f"Expected exactly one end node, but found: {len(end_nodes)} {end_nodes}")
-        
-        return end_nodes[0]
+    def get_end_nodes(self):
+        return [node for node, neighbors in self.graph.items() if not neighbors]
+
+    def get_all_loops(self) -> List[Loop]:
+        visited_loops = []
+        all_loops_set = set()  # Store canonical loop signatures
+
+        def canonical_form(nodes: List[str]) -> tuple:
+            """Rotate list so the smallest element is first"""
+            n = len(nodes)
+            min_index = min(range(n), key=lambda i: nodes[i])
+            return tuple(nodes[min_index:] + nodes[:min_index])
+
+        def dfs(current, start, path, gain, visited_set):
+            neighbors = self.graph.get(current, {})
+            for neighbor, weight in neighbors.items():
+                if neighbor == start:
+                    loop_nodes = path[:]  # full loop without duplicating start
+                    canonical = canonical_form(loop_nodes)
+                    if canonical not in all_loops_set:
+                        all_loops_set.add(canonical)
+                        total_gain = gain * weight
+                        loop = Loop()
+                        loop.nodes = copy.deepcopy(loop_nodes)
+                        loop.gain = total_gain
+                        visited_loops.append(loop)
+                elif neighbor not in visited_set:
+                    visited_set.add(neighbor)
+                    dfs(neighbor, start, path + [neighbor], gain * weight, visited_set)
+                    visited_set.remove(neighbor)
+
+        for node in self.graph:
+            dfs(node, node, [node], 1.0, {node})
+
+        return visited_loops
+
