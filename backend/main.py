@@ -12,5 +12,9 @@ inputDTO = [
 
 g = Graph(inputDTO)
 loops = g.get_all_loops()
+
+paths = g.get_all_paths("A", "D")
+for p in paths:
+    print(p)
 for loop in loops:
     print(loop)

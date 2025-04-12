@@ -1,5 +1,6 @@
 from typing import List, Dict, Set
-from .Loop import Loop  # Assuming Loop is in Loop.py or similar
+from .Loop import Loop
+from .Path import Path
 import copy
 
 class Graph:
@@ -62,4 +63,19 @@ class Graph:
             dfs(node, node, [node], 1.0, {node})
 
         return visited_loops
+    def get_all_paths(self, start: str, end: str) -> List[Path]:
+        all_paths = []
+
+        def dfs(current, path, gain, visited):
+            if current == end:
+                all_paths.append(Path(path, gain))
+                return
+            for neighbor, weight in self.graph.get(current, {}).items():
+                if neighbor not in visited:
+                    visited.add(neighbor)
+                    dfs(neighbor, path + [neighbor], gain * weight, visited)
+                    visited.remove(neighbor)
+
+        dfs(start, [start], 1.0, {start})
+        return all_paths
 
