@@ -1,8 +1,8 @@
 from dataclasses import dataclass
 from typing import List, Set, Tuple, Dict
-from Graph import Graph
-from Loop import Loop
-from Path import Path
+from Classes.Graph import Graph
+from Classes.Loop import Loop
+from Classes.Path import Path
 import itertools
 
 class SignalGraphSolver:
