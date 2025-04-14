@@ -6,12 +6,13 @@ import itertools
 
 
 class SignalGraphSolver:
-    def __init__(self,graph:Graph):
-        self.all_loops = graph.get_all_loops()
+    def __init__(self, loops: List[Loop], paths:List[Path]):
+        self.all_loops = loops
         self.all_pairof_loops = []  # Each element is a list of combinations of loops of a certain order
-     
-        self.paths= graph.get_all_paths()
+
+        self.paths=paths  
         self.all_pairof_loops.append([[loop] for loop in self.all_loops])
+
         
     
     def get_non_touching_loops(self,all_loops):

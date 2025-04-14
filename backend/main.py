@@ -26,7 +26,13 @@ def solve_signal_flow_graph():
         data = request.json.get("edges", [])
         dto = InputDTO(data)
         graph = Graph(dto)
-        solver = SignalGraphSolver(graph)
+        start_nodes = graph.get_start_nodes()
+        end_nodes = graph.get_end_nodes()
+        if len(start_nodes) != 1 or len(end_nodes) != 1:
+            raise ValueError("Graph must have exactly one start node and one end node.")
+
+        paths = graph.get_all_paths(start_nodes[0], end_nodes[0])
+        solver = SignalGraphSolver(graph.get_all_loops(), paths)
         result = solver.solve()
         
         return jsonify({
