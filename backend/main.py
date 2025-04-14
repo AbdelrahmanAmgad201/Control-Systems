@@ -1,19 +1,31 @@
+from flask import Flask, request, jsonify
 from Classes.Graph import Graph
 from Classes.SignalGraphSolver import SignalGraphSolver
-from Classes.Loop import Loop
+import traceback
 
-from flask import Flask, request, jsonify
-from typing import Dict
-import json
+from mssgDTOs.InputDTO import InputDTO
 
 app = Flask(__name__)
+
+@app.route('/graph', methods=['POST'])
+def create_graph():
+    try:
+        data = request.json.get("edges", [])
+        dto = InputDTO(data)
+        graph = Graph(dto)
+        return jsonify(graph.graph)
+    except Exception as e:
+        traceback.print_exc() 
+        return jsonify({"error": str(e)}), 400
+
 
 @app.route('/solve', methods=['POST'])
 def solve_signal_flow_graph():
     try:
         
-        input_data = request.json
-        graph = Graph(input_data)
+        data = request.json.get("edges", [])
+        dto = InputDTO(data)
+        graph = Graph(dto)
         solver = SignalGraphSolver(graph)
         result = solver.solve()
         
@@ -23,6 +35,7 @@ def solve_signal_flow_graph():
         }), 200
     
     except Exception as e:
+        traceback.print_exc() 
         return jsonify({
             "success": False,
             "error": str(e)

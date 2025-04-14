@@ -4,7 +4,8 @@ from typing import List, Set, Tuple, Dict
 class Loop:
         gain: float
         nodes: List[str]
-        
+        def __init__(self):
+            pass
         def __str__(self):
             nodes_str = ' -> '.join(self.nodes)
             if self.nodes:

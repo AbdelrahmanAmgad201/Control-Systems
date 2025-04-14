@@ -1,9 +1,8 @@
-from dataclasses import dataclass
-from typing import List, Set, Tuple, Dict
-from Classes.Graph import Graph
+from typing import List
 from Classes.Loop import Loop
 from Classes.Path import Path
 import itertools
+
 
 class SignalGraphSolver:
     def __init__(self, loops: List[Loop], paths:List[Path]):

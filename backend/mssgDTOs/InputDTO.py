@@ -1,4 +1,4 @@
-from typing import List, Dict
+from typing import List
 
 class InputDTO:
     def __init__(self, data: List[List]):
