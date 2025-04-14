@@ -1,6 +1,6 @@
 from typing import List, Dict, Set
-from .Loop import Loop
-from .Path import Path
+from Loop import Loop
+from Path import Path
 import copy
 
 class Graph:
@@ -63,6 +63,7 @@ class Graph:
             dfs(node, node, [node], 1.0, {node})
 
         return visited_loops
+    
     def get_all_paths(self, start: str, end: str) -> List[Path]:
         all_paths = []
 
