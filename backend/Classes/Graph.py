@@ -1,17 +1,19 @@
 from typing import List, Dict, Set
-from Loop import Loop
-from Path import Path
+from Classes.Path import Path
+from Classes.Loop import Loop
+from mssgDTOs.InputDTO import InputDTO
+
 import copy
 
 class Graph:
     graph: Dict[str, Dict[str, float]]
 
-    def __init__(self, inputDTO):
+    def __init__(self, inputDTO: InputDTO):
         self.graph = self.construct(inputDTO)
 
-    def construct(self, inputDTO):
+    def construct(self, inputDTO: InputDTO) -> Dict[str, Dict[str, float]]:
         graph = {}
-        for edge in inputDTO:
+        for edge in inputDTO.edges:
             frm = edge["from"]
             to = edge["to"]
             gain = edge["gain"]
@@ -19,6 +21,7 @@ class Graph:
             if frm not in graph:
                 graph[frm] = {}
             graph[frm][to] = gain
+
             if to not in graph:
                 graph[to] = {}
         return graph

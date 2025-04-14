@@ -1,20 +1,33 @@
 from Classes.Graph import Graph
-# from Classes.SignalGraphSolver import SignalGraphSolver
+from Classes.SignalGraphSolver import SignalGraphSolver
 from Classes.Loop import Loop
 
-inputDTO = [
-    {"from": "A", "to": "B", "gain": 2.0},
-    {"from": "B", "to": "C", "gain": 3.0},
-    {"from": "C", "to": "A", "gain": 4.0},  # Loop A -> B -> C -> A
-    {"from": "C", "to": "D", "gain": 5.0},
-    {"from": "D", "to": "B", "gain": 1.0}   # Another loop B -> C -> D -> B
-]
+from flask import Flask, request, jsonify
+from typing import Dict
+import json
 
-g = Graph(inputDTO)
-loops = g.get_all_loops()
+app = Flask(__name__)
 
-paths = g.get_all_paths("A", "D")
-for p in paths:
-    print(p)
-for loop in loops:
-    print(loop)
+@app.route('/solve', methods=['POST'])
+def solve_signal_flow_graph():
+    try:
+        
+        input_data = request.json
+        graph = Graph(input_data)
+        solver = SignalGraphSolver(graph)
+        result = solver.solve()
+        
+        return jsonify({
+            "success": True,
+            "result": result
+        }), 200
+    
+    except Exception as e:
+        return jsonify({
+            "success": False,
+            "error": str(e)
+        }), 400
+
+
+if __name__ == '__main__':
+    app.run(debug=True)
