@@ -1,15 +1,16 @@
 from typing import List
 from Classes.Loop import Loop
 from Classes.Path import Path
+from Classes.Graph import Graph
 import itertools
 
 
 class SignalGraphSolver:
-    def __init__(self, loops: List[Loop], paths:List[Path]):
-        self.all_loops = loops
+    def __init__(self,graph:Graph):
+        self.all_loops = graph.get_all_loops()
         self.all_pairof_loops = []  # Each element is a list of combinations of loops of a certain order
      
-        self.paths=paths  
+        self.paths= graph.get_all_paths()
         self.all_pairof_loops.append([[loop] for loop in self.all_loops])
         
     
