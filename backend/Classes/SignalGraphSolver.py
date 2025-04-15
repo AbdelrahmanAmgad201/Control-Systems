@@ -46,7 +46,7 @@ class SignalGraphSolver:
             else:
                 break
                 
-        return gains.copy(), self.all_pairof_loops.copy
+        return gains.copy(), self.all_pairof_loops.copy()
     
     def are_mutually_non_touching(self, loops: List[Loop]) -> bool:
         for i in range(len(loops)):
@@ -76,7 +76,7 @@ class SignalGraphSolver:
             
             # Create a temporary solver with just these loops
             temp_solver = SignalGraphSolver(non_touching_loops, [])
-            delta = temp_solver.get_delta()
+            delta,gains,loops = temp_solver.get_delta()
             deltas.append(delta)
         
         return deltas
@@ -92,16 +92,16 @@ class SignalGraphSolver:
             sign*=-1
             for j in i: 
                 res+=sign*j 
-        return 1-res
+        return 1-res,gains,loops
     
     def solve(self):
         res=0
         deltas=self.get_deltas()
-        delta=self.get_delta()
+        delta,gains,loops=self.get_delta()
         for i in range(len(self.paths)):
             res+=self.paths[i].gain*deltas[i]
         res/=delta 
-        return res
+        return res,delta,deltas,gains,self.all_pairof_loops,self.paths
 
 # Test code
 loop1 = Loop()
@@ -136,6 +136,12 @@ test_paths=[]
 test_paths.append(path1)
 test_paths.append(path2)
 solver = SignalGraphSolver(test_loops,test_paths)
-
-print(solver.solve())
+result,delta,deltas,gains,loop_pairs,forward_paths = solver.solve()
+loop_pairs = [[[loop.nodes for loop in sublist] for sublist in level] for level in loop_pairs]
+forward_paths_gains=[path.gain for path in forward_paths]
+forward_paths_nodes=[path.path for path in forward_paths]
+print(gains[0])
+print(loop_pairs[0])
+print(forward_paths_gains)
+print(forward_paths_nodes)
 

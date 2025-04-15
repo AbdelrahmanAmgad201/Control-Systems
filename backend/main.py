@@ -22,7 +22,6 @@ def create_graph():
 @app.route('/solve', methods=['POST'])
 def solve_signal_flow_graph():
     try:
-        
         data = request.json.get("edges", [])
         dto = InputDTO(data)
         graph = Graph(dto)
@@ -33,11 +32,19 @@ def solve_signal_flow_graph():
 
         paths = graph.get_all_paths(start_nodes[0], end_nodes[0])
         solver = SignalGraphSolver(graph.get_all_loops(), paths)
-        result = solver.solve()
-        
+        result,delta,deltas,gains,loop_pairs,forward_paths = solver.solve()
+        loop_pairs = [[[loop.nodes for loop in sublist] for sublist in level] for level in loop_pairs]
+        forward_paths_gains=[path.gain for path in forward_paths]
+        forward_paths_nodes=[path.path for path in forward_paths]
         return jsonify({
             "success": True,
-            "result": result
+            "result": result,
+            "delta":delta,
+            "deltas":deltas,
+            "Forward_paths_gains":forward_paths_gains,
+            "Forward_paths_nodes":forward_paths_nodes,
+            "loop_pairs_gains":gains,
+            "loop_pairs":loop_pairs
         }), 200
     
     except Exception as e:
