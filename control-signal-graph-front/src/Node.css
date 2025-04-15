@@ -1,0 +1,31 @@
+.circle {
+    width: 25px;
+    height: 25px;
+    background-color: #fff; /* Or any color you prefer */
+    border: #777 solid 1px;
+    border-radius: 50%;
+    font-size: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.circle div {
+    margin: 0px;
+    padding: 0px;
+}
+
+.circle:hover {
+    border: #444 solid 1px;
+}
+
+.circle:active {
+    border: #000 solid 1px;
+}
+
+.handle {
+    width: 1px;
+    height: 1px;
+    background-color: #aaa;
+    border: none;
+}
