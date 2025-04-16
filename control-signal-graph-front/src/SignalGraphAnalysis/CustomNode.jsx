@@ -1,5 +1,5 @@
 import { Handle, Position } from '@xyflow/react';
-import './Node.css';
+import './styles/Node.css';
 
 function Node({ data }) {
   return (

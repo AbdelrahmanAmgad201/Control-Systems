@@ -1,6 +1,6 @@
 import { EdgeLabelRenderer, useReactFlow } from '@xyflow/react';
 import { useState, useCallback, useEffect } from 'react';
-import './Edge.css';
+import './styles/Edge.css';
 
 function CustomEdge({ id, sourceX, sourceY, targetX, targetY, data, selected }) {
     const [controlPoint, setControlPoint] = useState({});
@@ -62,8 +62,8 @@ function CustomEdge({ id, sourceX, sourceY, targetX, targetY, data, selected }) 
         const angle = Math.atan2(dy, dx);
         
         // Arrow dimensions
-        const arrowLength = 12;
-        const arrowWidth = 6;
+        const arrowLength = 6;
+        const arrowWidth = 3;
     
         // Calculate arrow points
         const arrowPoint1X = arrowX - arrowLength * Math.cos(angle - Math.PI/6);

@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import './App.css';
+import './styles/OutputTables.css';
 
 function Tables({ edgeData, setShowTables }) {
   const [apiResults, setApiResults] = useState(null);
@@ -8,7 +8,6 @@ function Tables({ edgeData, setShowTables }) {
   const [transferFunction, setTransferFunction] = useState('');
 
   useEffect(() => {
-    // Function to fetch data from API
     const fetchResults = async () => {
       // Reset states
       setLoading(true);
@@ -22,8 +21,7 @@ function Tables({ edgeData, setShowTables }) {
           edges: edgeData
         };
 
-        // Uncomment this block to make the actual API call
-        const apiUrl = 'http://localhost:5000/solve'; // Adjust if your API has a different URL
+        const apiUrl = 'http://localhost:5000/solve';
         const response = await fetch(apiUrl, {
           method: 'POST',
           headers: {
@@ -38,24 +36,6 @@ function Tables({ edgeData, setShowTables }) {
         
         const data = await response.json();
         console.log("API response:", data);
-        
-        // // Mock data for testing - comment this out when using real API
-        // const data = {
-        //   success: true,
-        //   result: -19.18518518518522,
-        //   delta: -2.6999999999999957,
-        //   deltas: [5.400000000000001, 2.0],
-        //   Forward_paths_gains: [7, 7],
-        //   Forward_paths_nodes: [['A', 'B', 'C', 'D'], ['P', 'A', 'T', 'R']],
-        //   loop_pairs_gains: [[2.5, 1.2, 0.8, 3.0, 3.7], 
-        //                       [3.0, 7.5, 9.25, 3.5999999999999996, 4.44, 2.4000000000000004, 2.9600000000000004, 11.100000000000001], 
-        //                       [9.0, 11.1, 27.750000000000004, 13.320000000000002, 8.880000000000003], 
-        //                       [33.300000000000004]],
-        //   loop_pairs: [[[['A', 'B', 'C']], [['D', 'E']], [['C', 'D']], [['F', 'G']], [['K', 'P']]], 
-        //                [[['A', 'B', 'C'], ['D', 'E']], [['A', 'B', 'C'], ['F', 'G']], [['A', 'B', 'C'], ['K', 'P']], [['D', 'E'], ['F', 'G']], [['D', 'E'], ['K', 'P']], [['C', 'D'], ['F', 'G']], [['C', 'D'], ['K', 'P']], [['F', 'G'], ['K', 'P']]], 
-        //                [[['F', 'G'], ['A', 'B', 'C'], ['D', 'E']], [['K', 'P'], ['A', 'B', 'C'], ['D', 'E']], [['F', 'G'], ['K', 'P'], ['A', 'B', 'C']], [['F', 'G'], ['K', 'P'], ['D', 'E']], [['C', 'D'], ['F', 'G'], ['K', 'P']]], 
-        //                [[['F', 'G'], ['K', 'P'], ['A', 'B', 'C'], ['D', 'E']]]]
-        // };
         
         if (!data.success && data.error) {
           throw new Error(data.error);

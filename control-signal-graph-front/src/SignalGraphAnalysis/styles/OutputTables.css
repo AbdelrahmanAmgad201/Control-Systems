@@ -1,0 +1,127 @@
+.floating-table-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 10;
+}
+  
+.floating-table {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    width: 80%;
+    max-width: 800px;
+    max-height: 80vh;
+    overflow-y: auto;
+}
+  
+.floating-table-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 16px;
+}
+  
+.floating-table-header h2 {
+    margin: 0;
+    font-size: 18px;
+}
+  
+.close-button {
+    background: none;
+    border: none;
+    font-size: 16px;
+    cursor: pointer;
+    color: #555;
+    padding: 4px 8px;
+    border-radius: 4px;
+}
+  
+.close-button:hover {
+    background-color: #f5f5f5;
+}
+  
+.sample-tables h3 {
+    margin-top: 24px;
+    margin-bottom: 12px;
+    font-size: 16px;
+    font-weight: 600;
+}
+  
+.sample-tables h3:first-child {
+    margin-top: 0;
+}
+  
+  /* API Results Styling */
+.api-results {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+  
+.transfer-function, .delta-value {
+    background-color: #f8f9fa;
+    padding: 15px;
+    border-radius: 6px;
+    border-left: 4px solid #4a90e2;
+}
+  
+.function-display, .value-display {
+    font-family: 'Courier New', monospace;
+    font-size: 16px;
+    padding: 10px;
+    background-color: #fff;
+    border-radius: 4px;
+    border: 1px solid #eee;
+}
+  
+.result-table h3 {
+    margin-top: 0;
+    margin-bottom: 12px;
+    font-size: 16px;
+    font-weight: 600;
+}
+  
+.loading-indicator, .error-message, .no-results {
+    text-align: center;
+    padding: 20px;
+}
+  
+.error-message {
+    color: #d32f2f;
+    background-color: #ffebee;
+    border-radius: 6px;
+    padding: 15px;
+}
+  
+  /* Table styles specific to the Tables component */
+.table-wrapper {
+    overflow-x: auto;
+    font-size: 14px;
+    border: 1px solid #eee;
+    border-radius: 4px;
+}
+  
+.floating-table table {
+    width: 100%;
+    border-collapse: collapse;
+    text-align: left;
+}
+  
+.floating-table th, 
+.floating-table td {
+    border: 1px solid #eee;
+    padding: 10px;
+}
+  
+.floating-table th {
+    background-color: #f7f7f7;
+    font-weight: 600;
+}
