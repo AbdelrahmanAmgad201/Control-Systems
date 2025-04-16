@@ -55,6 +55,7 @@ def solve_signal_flow_graph():
             "success": False,
             "error": str(e)
         }), 400
+    
 @app.route("/solve_characteristic_equation", methods=["POST"])
 def solve_characteristic_equation():
     try:
@@ -82,5 +83,6 @@ def solve_characteristic_equation():
     except Exception as e:
         print(e)
         return jsonify({"error": str(e)}), 500
+    
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run()

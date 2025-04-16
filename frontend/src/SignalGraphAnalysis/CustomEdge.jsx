@@ -24,17 +24,14 @@ function CustomEdge({ id, sourceX, sourceY, targetX, targetY, data, selected }) 
             // Set default control point if none exists or values are invalid
             setControlPoint({
                 x: (sourceX + targetX) / 2,
-                y: (sourceY + targetY) / 2 - 10,
+                y: (sourceY + targetY) / 2 - 30,
             });
         }
     }, [sourceX, sourceY, targetX, targetY, data]);
 
-    // Safe calculation of path - guard against NaN values
     const calculateEdgePath = () => {
-        // Verify all values are valid numbers
         if (isNaN(sourceX) || isNaN(sourceY) || isNaN(targetX) || isNaN(targetY) ||
             isNaN(controlPoint.x) || isNaN(controlPoint.y)) {
-            // Return a straight line as fallback
             return `M ${sourceX},${sourceY} L ${targetX},${targetY}`;
         }
         
